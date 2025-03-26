@@ -1,8 +1,8 @@
 import React from 'react'
-// import UI_ELEMENT from '../../assets/images/ui-element.png'
-// import CARD_1 from '../../assets/images/auth-card-1.png'
-// import CARD_2 from '../../assets/images/auth-card-2.png'
-// import CARD_3 from '../../assets/images/auth-card-3.png'
+import UI_ELEMENT from '../../assets/images/ui-element.jpg'
+import CARD_1 from '../../assets/images/auth-card-1.jpg'
+import CARD_2 from '../../assets/images/auth-card-2.jpg'
+import CARD_3 from '../../assets/images/auth-card-3.jpg'
 
 
 
