@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import AuthLayout from '../../components/layouts/AuthLayout'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import AuthInput from '../../components/input/AuthInput'
+import { validateEmail } from '../../utils/helper'
 
 const LoginForm = () => {
 
@@ -11,8 +12,28 @@ const LoginForm = () => {
 
   const navigate = useNavigate()
 
-  const handleSubmit=async()=>{
+  //handle login form submit
+  const handleLogin=async(e)=>{
+    e.preventDefault()
 
+    if(!validateEmail(email)){
+      setError("Please enter a valid email address")
+      return
+    }
+
+    if(!password){
+      setError("Please enter the password")
+      return
+    }
+
+    setError("")
+
+    //login api 
+    try {
+      
+    } catch (error) {
+      
+    }
   }
   return (
     <AuthLayout>
@@ -22,14 +43,36 @@ const LoginForm = () => {
         Please enter your details to login
       </p>
 
-      <form action="" onSubmit={handleSubmit}>
+      <form action="" onSubmit={handleLogin}>
         <AuthInput
         value={email}
-        onChange={({target}) => setEmail(target.email)}
+        onChange={({target}) => setEmail(target.value)}
         label="Email Address"
         placeholder="Enter email address"
         type="text"
         />
+
+        <AuthInput
+        value={password}
+        onChange={({target})=>setPassword(target.value)}
+        label="Password"
+        placeholder="Enter Password"
+        type="password"
+        />
+
+        {error && <p className='text-red-500 text-xs pb-2.5'>{error}</p>}
+
+        <button type='submit' className='bt-primary'>
+          Login
+        </button>
+
+        <p className='text-[13px] text-slate-800 mt-3'>
+          Dont have an account?(" ")
+          <Link className='font-medium text-primary underline' to="/signup">
+          Signup
+          </Link>
+        </p>
+
       </form>
     </div>
     </AuthLayout>
