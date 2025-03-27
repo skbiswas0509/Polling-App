@@ -2,6 +2,8 @@ import express from 'express'
 import dotenv from 'dotenv'
 import cors from 'cors'
 dotenv.config()
+import connectDB from './config/db.js'
+import router from './routes/authRoutes.js'
 
 const app = express();
 
@@ -14,5 +16,10 @@ app.use(cors({
 
 app.use(express.json())
 
+app.unsubscribe("/api/v1/auth",router)
+
 const PORT = process.env.PORT || 5000
-app.listen(PORT, ()=>console.log(`Server running on port ${PORT}`))
+
+connectDB().then(()=>{
+    app.listen(PORT, ()=>console.log(`Server running on port ${PORT}`))
+})
