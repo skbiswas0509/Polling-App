@@ -82,7 +82,7 @@ const loginUser = async(req, res) => {
             user : {
                 ...user.toObject(),
                 totalPollsCreated : 0,
-                totalPollsVoted : 0,
+                totalPollsVotes : 0,
                 totalPollsBookmarked : 0
             },
             token: generateToken(user._id)
@@ -97,7 +97,28 @@ const loginUser = async(req, res) => {
 
 //getUser
 const getUserInfo = async(req, res) =>{
+    try {
+        const user = await UserModel.findById(req.user.id).select("-password")
 
+        if(!user){
+            return res.status(404).json({message : "User not found"})
+        }
+
+        //add the new attributes to thte response
+        const userInfo = {
+            ...user.toObject(),
+            totalPollsCreated : 0,
+            totalPollsVotes : 0,
+            totalPollsBookmarked : 0
+        }
+
+        res.status(200).json(userInfo)
+    } catch (error) {
+        return res.status(500).json({
+            message : "Error getting userInfo", 
+            error : error.message
+        })
+    }
 }
 
 export {registerUser, loginUser, getUserInfo}
