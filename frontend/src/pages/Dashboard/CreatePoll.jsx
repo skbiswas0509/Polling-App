@@ -29,8 +29,27 @@ const CreatePoll = () => {
 
   //create a new poll
   const handleCreatePoll = async () => {
-    
+    const {question, type, options, error} = pollData
+
+    if(!question || !type){
+      console.log("CREATE:", { question, type, options, imageOptions, error })
+      handleValueChange("error", "Question & type are required")
+      return
+    }
+
+    if(type === "single-choice" && options.length < 2){
+      handleValueChange("error", "Enter at two options")
+      return
+    }
+    if(type === "image-based" && imageOptions.length < 2){
+      handleValueChange("error", "Enter at two options")
+      return
+    }
+
+    handleValueChange("error","")
+    console.log("NO_ERR",{pollData})
   }
+
   return (
     <DashboardLayout activeMenu='Create Poll'>
       <div className='bg-gray-100/80 my-5 p-5 rounded-lg mx-auto'>

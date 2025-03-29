@@ -5,7 +5,8 @@ dotenv.config()
 import path from 'path'
 import { fileURLToPath } from 'url'
 import connectDB from './config/db.js'
-import router from './routes/authRoutes.js'
+import authRouter from './routes/authRoutes.js'
+import pollRouter from './routes/pollRoutes.js'
 
 const app = express();
 
@@ -18,7 +19,8 @@ app.use(cors({
 
 app.use(express.json())
 
-app.use("/api/v1/auth",router)
+app.use("/api/v1/auth",authRouter)
+app.use("/api/v1/poll",pollRouter)
 
 //manually defining __dirname in ES module
 const __filename = fileURLToPath(import.meta.url)

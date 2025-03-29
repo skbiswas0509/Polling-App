@@ -3,12 +3,12 @@ import  {registerUser, getUserInfo, loginUser } from "../controllers/authControl
 import protect from "../middlewares/authMiddleware.js";
 import upload from "../middlewares/uploadMiddleware.js";
 
-const router = Router()
+const authRouter = Router()
 
-router.post('/register',registerUser)
-router.post("/login",loginUser)
-router.get("/getUser",protect, getUserInfo)
-router.post('/upload-image', upload.single("image"), (req, res)=>{
+authRouter.post('/register',registerUser)
+authRouter.post("/login",loginUser)
+authRouter.get("/getUser",protect, getUserInfo)
+authRouter.post('/upload-image', upload.single("image"), (req, res)=>{
     if(!req.file){
         return res.status(400).json({message: "No file uploaded"})
     }
@@ -18,4 +18,4 @@ router.post('/upload-image', upload.single("image"), (req, res)=>{
     res.status(200).json({ imageUrl })
 })
 
-export default router
+export default authRouter
