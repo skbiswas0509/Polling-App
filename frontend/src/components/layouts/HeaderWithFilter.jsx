@@ -35,7 +35,7 @@ const HeaderWithFilter = ({title, filterType, setFilterType}) => {
     </div>
 
     {open && (
-    <div className=''>
+    <div className='flex flex-wrap gap-4 bg-primary p-4 rounded-l-lg rounded-b-lg'>
         {[{ label: "All", value: "" }, ...POLL_TYPE].map((type) => (
             <button
                 key={type.value}

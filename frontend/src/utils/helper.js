@@ -15,3 +15,7 @@ export const getInitials = (name)=>{
     
     return initials.toUpperCase()
 }
+
+export const getPollBookmarked = () =>{
+    return userBookmarks.include(pollId)
+}
