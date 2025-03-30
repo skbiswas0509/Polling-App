@@ -1,6 +1,7 @@
 import UserModel from "../models/User.js";
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
+import pollModel from "../models/Poll.js";
 
 //generate jwt token
 const generateToken = (id) => {
@@ -77,13 +78,24 @@ const loginUser = async(req, res) => {
             })
         }
 
+        //count polls created by the user
+        const totalPollsCreated = await pollModel.countDocuments({ creator: user._id})
+
+        //count polls the user has voted to 
+        const totalPollsVotes = await pollModel.countDocuments({
+            voters: user._id
+        })
+
+        //get the count of bookmarked polls
+        const totalPollsBookmarked = user.bookmarkedPolls.length
+
         res.status(200).json({
             id : user._id,
             user : {
                 ...user.toObject(),
-                totalPollsCreated : 0,
-                totalPollsVotes : 0,
-                totalPollsBookmarked : 0
+                totalPollsCreated,
+                totalPollsVotes,
+                totalPollsBookmarked
             },
             token: generateToken(user._id)
         })
@@ -104,12 +116,23 @@ const getUserInfo = async(req, res) =>{
             return res.status(404).json({message : "User not found"})
         }
 
+        //count polls created by the user
+        const totalPollsCreated = await pollModel.countDocuments({ creator: user._id})
+
+        //count polls the user has voted to 
+        const totalPollsVotes = await pollModel.countDocuments({
+            voters: user._id
+        })
+
+        //get the count of bookmarked polls
+        const totalPollsBookmarked = user.bookmarkedPolls.length
+
         //add the new attributes to thte response
         const userInfo = {
             ...user.toObject(),
-            totalPollsCreated : 0,
-            totalPollsVotes : 0,
-            totalPollsBookmarked : 0
+            totalPollsCreated,
+            totalPollsVotes,
+            totalPollsBookmarked
         }
 
         res.status(200).json(userInfo)
