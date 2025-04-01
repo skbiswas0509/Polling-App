@@ -222,6 +222,12 @@ const getPollById = async(req, res)=>{
     const {id} = req.params
     try {
         const poll = await pollModel.findById(id).populate("creator","username email")
+        .populate(
+            {
+                path: "responses.voterId",
+                select: "username profileImage fullName"
+            }
+        )
         if(!poll){
             return res.status(404).json({
                 message : "poll not found"

@@ -6,8 +6,14 @@ const OptionInputTile = ({
     label,
     onSelect
 }) => {
+
+    const getColors = () => {
+        if(isSelected) return "text-white bg-primary border-sky-400"
+
+        return "text-black bg-slate-200/50 border-slate-200"
+    }
   return (
-        <button className=''
+        <button className={`w-full flex items-center gap-2 px-3 py-1 mb-4 border rounded-mb ${getColors}`}
             onClick={onSelect}
         >
             {isSelected ? (

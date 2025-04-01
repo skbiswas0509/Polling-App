@@ -7,6 +7,11 @@ import axiosInstance from '../../utils/axiosInstance'
 import { API_PATHS } from '../../utils/apiPaths'
 import PollCard from '../../components/PollCards/PollCard'
 
+import InfiniteScroll from 'react-infinite-scroll-component'
+
+const loadMorePolls = ()=>{
+  setPage((prevPage) => prevPage + 1)
+}
 
 const PAGE_SIZE = 10 
 
@@ -71,6 +76,16 @@ const Home = () => {
       filterType={filterType}
       setFilterType={setFilterType}
       />
+
+      {/* infinte scroll pagination */}
+
+      <InfinteScroll 
+      dataLength={allPolls.length}
+      next={loadMorePolls}
+      hasMore={hasMore}
+      loader={<h4 className='info-text'>Loading</h4>}
+      endMessage={<p className='info-text'>No more polls to display</p>}
+      >
       
       {allPolls.map((poll) => (
         <PollCard
@@ -90,6 +105,7 @@ const Home = () => {
         createdAt={poll.createdAt || false}
         />
       ))}
+      </InfinteScroll>
     </div>
     </DashboardLayout>
   )
