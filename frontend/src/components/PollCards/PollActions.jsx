@@ -33,6 +33,15 @@ const PollActions = ({
         </div>
       )}
 
+      {isMyPoll && !pollClosed && (
+      <button className=""
+       onClick={onClosePoll}
+       disabled={loading}>
+        Close
+       </button>
+        
+    )}
+
       <button className='icon-btn' onClick={togglebook}>
         {
             isBookmarked ? (

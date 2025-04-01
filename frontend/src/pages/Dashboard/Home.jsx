@@ -8,6 +8,8 @@ import { API_PATHS } from '../../utils/apiPaths'
 import PollCard from '../../components/PollCards/PollCard'
 
 import InfiniteScroll from 'react-infinite-scroll-component'
+import CREATE_ICON from "../../assets/images/my-poll-icon.png"
+import EmptyCard from '../../components/cards/EmptyCard'
 
 const loadMorePolls = ()=>{
   setPage((prevPage) => prevPage + 1)
@@ -79,13 +81,22 @@ const Home = () => {
 
       {/* infinte scroll pagination */}
 
-      <InfinteScroll 
+      <InfiniteScroll 
       dataLength={allPolls.length}
       next={loadMorePolls}
       hasMore={hasMore}
       loader={<h4 className='info-text'>Loading</h4>}
       endMessage={<p className='info-text'>No more polls to display</p>}
       >
+
+      {allPolls.length === 0 && !loading &&(
+        <EmptyCard
+        imgSrc={CREATE_ICON}
+        message="Welcome. You are the first user of the system and therefore there no polls in the system."
+        btnText="Create Poll"
+        onClick={() => navigate("/create-poll")}
+        />
+      )}
       
       {allPolls.map((poll) => (
         <PollCard
@@ -105,7 +116,7 @@ const Home = () => {
         createdAt={poll.createdAt || false}
         />
       ))}
-      </InfinteScroll>
+      </InfiniteScroll>
     </div>
     </DashboardLayout>
   )
