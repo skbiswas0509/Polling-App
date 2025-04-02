@@ -23,7 +23,7 @@ const PollCard = ({
     createdAt
 }) => {
 
-    const { user, onUserVoted, toggleBookmarkId } = useContext(UserContext)
+    const { user, onUserVoted, toggleBookmarkId, onPollCreateOrDelete } = useContext(UserContext)
 
     const [selectedOptionIndex, setSelectedOptionIndex] = useState(-1)
     const [rating, setRating] = useState(0)
@@ -97,7 +97,7 @@ const PollCard = ({
                 getPostData()
             )
 
-            getPollsDetail()
+            getPollDetail()
             setIsVotedCompleted(true)
             onUserVoted()
             toast.sucess("Vote submitted successfully")
@@ -121,6 +121,38 @@ const PollCard = ({
         }
     }
 
+    //close Poll
+    const closePoll = async() =>{
+        try {
+            const response = await axiosInstance.post(API_PATHS.POLLS.CLOSE(pollId))
+
+            if(response.data){
+                setPollClosed(true)
+                toast.success(response.data?.message || "Poll closed successfully")
+            }
+        } catch (error) {
+            toast.error("Something went wrong. PLease try again")
+            console.log("Something went wrong. PLease try again", error)
+        }
+    }
+
+    //delete Poll
+    const deletePoll = async() =>{
+        try {
+            const response = await axiosInstance.delete(API_PATHS.POLLS.DELETE(pollId))
+
+            if(response.data){
+                setPollDeleted(true)
+                onPollCreateOrDelete()
+                toast.success(response.data?.message || "Poll deleted successfully")
+            }
+        } catch (error) {
+            toast.error("Something went wrong. PLease try again")
+            console.log("Something went wrong. PLease try again", error)
+        }
+    }
+
+
     return (
         !pollDeleted &&
         <div className='bg-slate-100/50 my-5 p-5 rounded-lg border border-slate-100 mx-auto'>
@@ -143,8 +175,8 @@ const PollCard = ({
                     toggleBookmark={toggleBookmark}
                     isMyPoll={isMyPoll}
                     pollClosed={pollClosed}
-                    onClosePoll={() => { }}
-                    onDelete={() => { }}
+                    onClosePoll={closePoll}
+                    onDelete={deletePoll}
                 />
             </div>
 

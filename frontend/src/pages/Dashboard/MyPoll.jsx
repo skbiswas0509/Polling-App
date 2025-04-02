@@ -64,7 +64,7 @@ const MyPoll = () => {
     setPage(1)
     fetchAllPolls(1)
     return () =>{}
-  },[filterType])
+  },[filterType, user])
 
   useEffect(()=>{
     if(page !== 1){
@@ -115,6 +115,7 @@ const MyPoll = () => {
         userHasVoted={poll.userHasVoted || false}
         isPollClose={poll.closed || false}
         createdAt={poll.createdAt || false}
+        isMyPoll
         />
       ))}
       </InfiniteScroll>

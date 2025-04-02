@@ -377,9 +377,17 @@ const getBookmarkedPolls = async(req, res)=>{
         const user = await UserModel.findById(userId).populate({
             path: "bookmarkedPolls",
             populate: {
-                path: "creator",
+                path: "responses.voterId",
                 select: "fullName username profileImageUrl"
             }
+        })
+        .populate({
+            path: "bookmarkedPolls",
+            populate: {
+                path: "creator",
+                select: "fullName username profileImageUrl"
+            },
+            select: "username profileImageUrl fullName"
         })   
         
         if(!user){

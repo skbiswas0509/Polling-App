@@ -71,7 +71,7 @@ const Home = () => {
   },[page])
 
   return (
-    <DashboardLayout activeMenu='Dashboard'>
+    <DashboardLayout activeMenu='Dashboard' stats={stats || []} showStats>
     <div className='my-5 mx-auto'>
       <HeaderWithFilter 
       title="Polls"
@@ -79,15 +79,6 @@ const Home = () => {
       setFilterType={setFilterType}
       />
 
-      {/* infinte scroll pagination */}
-
-      <InfiniteScroll 
-      dataLength={allPolls.length}
-      next={loadMorePolls}
-      hasMore={hasMore}
-      loader={<h4 className='info-text'>Loading</h4>}
-      endMessage={<p className='info-text'>No more polls to display</p>}
-      >
 
       {allPolls.length === 0 && !loading &&(
         <EmptyCard
@@ -98,6 +89,14 @@ const Home = () => {
         />
       )}
       
+      <InfiniteScroll 
+      dataLength={allPolls.length}
+      next={loadMorePolls}
+      hasMore={hasMore}
+      loader={<h4 className='info-text'>Loading</h4>}
+      endMessage={<p className='info-text'>No more polls to display</p>}
+      >
+
       {allPolls.map((poll) => (
         <PollCard
         key={`dashboard_${poll._id}`}
